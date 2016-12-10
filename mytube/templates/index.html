@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block albums_active %}active{% endblock %}
+
+{% block body %}
+<div class="albums-container container-fluid">
+
+    <div class="row">
+            {% for video in videos %}
+                <div  style="padding: 20px; ">
+                    <div>
+                        <a href="{% url 'detail' video.id %}">
+                            <video controls  width="400" height="300">
+                            <source src="{{ video.videofile.url }}" >
+                            </video>
+                        </a>
+                        <div class="caption">
+                            <h2>{{ video.title }}</h2>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

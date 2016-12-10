@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block albums_active %}active{% endblock %}
+
+{% block body %}
+<div class="albums-container container-fluid">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>{{ user.username }}'s videos</h3>
+
+        </div>
+
+    <div style="padding: 20px";>
+                <br>
+                <a href="{% url 'index' %}">
+                    <button type="button" class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Add new video
+                    </button>
+                </a>
+            </div>
+
+        {% if video %}
+            {% for video in videos %}
+                <div class="col-sm-4 col-lg-2">
+                    <div>
+                        <a href="{% url 'music:detail' video.id %}">
+                            <video controls  width="400" height="300">
+                            <source src="{{ video.videofile.url }}" >
+                            </video>
+                        </a>
+                        <div class="caption">
+                            <h2>{{ video.title }}</h2>
+                            <h4>{{ video.views }}</h4>
+                        </div>
+                    </div>
+
+                            <form action="{% url 'index' video.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="video_id" value="{{ video.id }}" />
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- If user searches and there are songs -->
+
+
+</div>
+{% endblock %}
