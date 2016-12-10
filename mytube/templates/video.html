@@ -1,23 +1,21 @@
 {% extends 'base.html' %}
-{% block title %}{{ album }}{% endblock %}
-{% block albums_active %}active{% endblock %}
 
 {% block body %}
     <div class="container-fluid songs-container">
-
         <div align="center">
+                    <video src="{{ video.url }}" controls width="800" height="450" autoplay></video>
 
-            <a href="{% url 'music:detail' album.id %}">
-                {% if video.videofile %}
-                    <video src="{{ video.videofile.url }}" controls width="800" height="450" autoplay></video>
-                {% else %}
-                    <h3>No image to display</h3>
-                {% endif %}
-            </a>
             <h1>{{ video.title }}</h1>
-            <h2>{{ video.views}}</h2>
 
         </div>
     </div>
+    <div>
+    {% for comment in comments %}
+        <h2>{{ comment.user.username }}</h2>
+        <br> {{ comment.comment }}
+    {% endfor %}
+    </div>
+
+
 
 {% endblock %}

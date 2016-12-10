@@ -1,26 +1,27 @@
 {% extends 'base.html' %}
-{% block albums_active %}active{% endblock %}
+{% block videos_active %}active{% endblock %}
+{% load staticfiles %}
+{% load filter %}
 
 {% block body %}
-<div class="albums-container container-fluid">
-
-    <div class="row">
-            {% for video in videos %}
-                <div  style="padding: 20px; ">
-                    <div>
-                        <a href="{% url 'detail' video.id %}">
-                            <video controls  width="400" height="300">
-                            <source src="{{ video.videofile.url }}" >
+    <div class="row" style="padding-left: 1% ; padding-right: 1%">
+    {% for video in videos %}
+        <div class="col-sm-4" align="center" >
+            <div class="thumbnail" >
+      <a href="{% url 'video' video|underscore:'_id' %}">
+                            <video controls  width="350" height="300">
+                            <source src="{{ video.url }}" >
                             </video>
                         </a>
-                        <div class="caption">
-                            <h2>{{ video.title }}</h2>
-                        </div>
+      <div class="caption">
+        <h3> {{ video.title }}</h3>
+        <p>{{ video.username }}</p>
+      </div>
+    </div>
+  </div>
 
-                    </div>
-                </div>
-            {% endfor %}
+    {% endfor %}
     </div>
 
-</div>
+
 {% endblock %}

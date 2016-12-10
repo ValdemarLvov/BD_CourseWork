@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Video
+from .models import Video, Comment
 
 
 class VideoForm(forms.ModelForm):
@@ -17,3 +17,9 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'password']
+
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields =['comment']

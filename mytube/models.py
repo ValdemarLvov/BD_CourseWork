@@ -12,3 +12,54 @@ class Video(models.Model):
 
     def __str__(self):
         return self.title + '-' + self.user
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, default=1)
+    video = models.ForeignKey(Video, default=1)
+    comment = models.TextField(max_length=100)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
