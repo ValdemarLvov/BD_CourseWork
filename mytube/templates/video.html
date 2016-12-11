@@ -41,6 +41,11 @@
     {% for comment in comments %}
         <b>{{ comment.user_name }}</b>
         <h4>{{ comment.text }}</h4>
+        {% if user.id == comment.user_id %}
+        <a href="/remove_comment/{{ comment|underscore:'_id' }}">
+            <button>Delete comment</button>
+        </a>
+        {% endif %}
     {% endfor %}
     </div>
 

@@ -106,8 +106,7 @@ def add_video(request):
             user_id = request.user.id
             username = request.user.username
             db.addVideo(title,username,user_id ,url)
-
-            return render(request, 'video.html', {'video':video})
+            return usersvideo(request)
         context={"form":form,}
         return render(request, 'add_video.html', context)
 
@@ -119,8 +118,12 @@ def add_comment(request, id):
     query = request.GET.get("comment")
     print query
     if (query):
-         db.addComment(id, request.user, query)
+         db.addcomment(id, request.user, query)
     return redirect('/video/' + id)
+
+def remove_comment(request, id):
+    video_id = db.removecomment(id)
+    return redirect('/video/' + video_id)
 
 def like(request, id):
     db.addlike(id, request.user)

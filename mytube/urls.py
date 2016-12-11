@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^like/(?P<id>[\w]+)/$', views.like),
     url(r'^dislike/(?P<id>[\w]+)/$', views.dislike),
     url(r'^search/$', views.index, name='search'),
-    url(r'^add_comment/(?P<id>[\w]+)/$', views.add_comment)
+    url(r'^add_comment/(?P<id>[\w]+)/$', views.add_comment),
+    url(r'^remove_comment/(?P<id>[\w]+)/$', views.remove_comment)
 
 ]
