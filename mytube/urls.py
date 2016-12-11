@@ -14,6 +14,9 @@ urlpatterns = [
     url(r'^add_video/$', views.add_video, name='add video'),
     #url(r'^(?P<video_id>[0-9]+)/delete_video/$', views., name='delete_video'),
     url(r'^remove/(?P<id>[\w]+)/$', views.delete_video),
-    url(r'^search/$', views.index, name='search')
+    url(r'^like/(?P<id>[\w]+)/$', views.like),
+    url(r'^dislike/(?P<id>[\w]+)/$', views.dislike),
+    url(r'^search/$', views.index, name='search'),
+    url(r'^add_comment/(?P<id>[\w]+)/$', views.add_comment)
 
 ]

@@ -1,21 +1,51 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+{% load filter %}
 
 {% block body %}
     <div class="container-fluid songs-container">
         <div align="center">
-                    <video src="{{ video.url }}" controls width="800" height="450" autoplay></video>
+                    <video src="{{ video.url }}" controls width="800" height="450" ></video>
 
             <h1>{{ video.title }}</h1>
-
+             <p>{{ video.date }}</p>
+             <p>{{ video.views }}</p>
+            {% if  is_like %}
+                You liked this video
+                <br>
+                <a href="/dislike/{{ video|underscore:'_id' }}">
+                                <button >Dislike</button>
+                            </a>
+                {% elif is_dislike %}
+                 You disliked this video
+                <br>
+                <a href="/like/{{ video|underscore:'_id' }}">
+                                <button>Like</button>
+                            </a>
+            {% else %}
+                 <br>
+                <a href="/dislike/{{ video|underscore:'_id' }}">
+                                <button >Dislike</button>
+                            </a>
+                <br>
+                <a href="/like/{{ video|underscore:'_id' }}">
+                                <button>Like</button>
+                            </a>
+        {% endif %}
+<br> Likes {{ likes }}
+        <br> Dislikes {{ dislikes }}
         </div>
     </div>
-    <div>
+    <h3>Comments:</h3>
+    <div  style="background-color: lightblue">
     {% for comment in comments %}
-        <h2>{{ comment.user.username }}</h2>
-        <br> {{ comment.comment }}
+        <b>{{ comment.user_name }}</b>
+        <h4>{{ comment.text }}</h4>
     {% endfor %}
     </div>
 
-
-
-{% endblock %}
+    <form   method="get" action="/add_comment/{{ video|underscore:'_id' }}">
+    <input type="text" class="form-control" name="comment" value="{{ request.GET.comment }}">
+    <button type="submit">Add Comment</button>
+    </form>
+{% endblock %}>

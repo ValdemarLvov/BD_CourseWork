@@ -70,12 +70,15 @@ def video (request, id):
     else:
         if request.method == 'GET':
             user = request.user
-            # video = get_object_or_404(Video, pk=video_id)
-            # video.views+=1
-            # video.save()
-            # comments = Comment.objects.filter(video_id=video_id)
+            #db.addview(id)
+            comments = db.getComments(id)
             video = db.getVideo(id)
-            return render(request, 'video.html', {'video':video, 'user':user})
+            is_like = db.is_like(user.id, id)
+            is_dislike =  db.is_dislike(user.id, id)
+            cnt_likes_dislikes = db.countlikes_dislikes()
+            return render(request, 'video.html', {'video':video, 'user':user, 'is_like':is_like, 'is_dislike': is_dislike,
+                                                  'likes':cnt_likes_dislikes["cnt_like"],'dislikes':cnt_likes_dislikes["cnt_dislike"],
+                                                  'comments': comments})
 
 def usersvideo(request):
     if not request.user.is_authenticated():
@@ -108,23 +111,21 @@ def add_video(request):
         context={"form":form,}
         return render(request, 'add_video.html', context)
 
-def add_comment(request, video_id):
-    if not request.user.is_authenticated():
-        return render(request, 'login.html')
-    else:
-        form = CommentForm(request.POST or None, request.FILES or None)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = request.user
-            comment.video = video_id
-            comment.comment = request.POST['comment']
-            comment.save()
-        return render(request, 'video.html')
-
 def delete_video(request, id):
     db.removevideo(id)
-    # video = Video.objects.get(pk=video_id)
-    # video.delete()
-    # videos = Video.objects.filter(user=request.user)
-    #return render(request, 'index.html', {'videos': videos})
     return redirect('/')
+
+def add_comment(request, id):
+    query = request.GET.get("comment")
+    print query
+    if (query):
+         db.addComment(id, request.user, query)
+    return redirect('/video/' + id)
+
+def like(request, id):
+    db.addlike(id, request.user)
+    return redirect('/video/'+ id)
+
+def dislike(request, id):
+    db.adddislike(id, request.user)
+    return redirect('/video/' + id)
