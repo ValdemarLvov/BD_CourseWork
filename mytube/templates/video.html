@@ -37,8 +37,9 @@
         </div>
     </div>
     <h3>Comments:</h3>
-    <div  style="background-color: lightblue">
+
     {% for comment in comments %}
+        <div  style="background-color: lightblue ;padding-right: 20px; padding-left: 20px">
         <b>{{ comment.user_name }}</b>
         <h4>{{ comment.text }}</h4>
         {% if user.id == comment.user_id %}
@@ -46,11 +47,14 @@
             <button>Delete comment</button>
         </a>
         {% endif %}
+        </div>
+        <br>
     {% endfor %}
-    </div>
 
-    <form   method="get" action="/add_comment/{{ video|underscore:'_id' }}">
+<br>
+    <form  style="padding-right: 20px; padding-left: 20px" method="get" action="/add_comment/{{ video|underscore:'_id' }}">
     <input type="text" class="form-control" name="comment" value="{{ request.GET.comment }}">
     <button type="submit">Add Comment</button>
     </form>
+    <br>
 {% endblock %}>

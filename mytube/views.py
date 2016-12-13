@@ -1,11 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
-from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
-from django.db.models import Q
-from .forms import VideoForm, UserForm, CommentForm
-from .models import Video, Comment
+from .forms import VideoForm, UserForm
+from .models import Video
 from  .DBManager import DB
 
 # Create your views here.
@@ -14,7 +11,6 @@ db = DB()
 def index(request):
     if not request.user.is_authenticated():
         return render(request, 'login.html')
-
     else:
         query = request.GET.get("q")
         print query
@@ -132,3 +128,11 @@ def like(request, id):
 def dislike(request, id):
     db.adddislike(id, request.user)
     return redirect('/video/' + id)
+
+def statistic(request):
+    if not request.user.is_superuser:
+        return render(request, 'login.html')
+    topChannels = db.getTopChannelsAggregate()
+    topCommentators = db.getTopCommentatorsAggregate()
+    return render(request, 'statistic.html', {'channels':topChannels, 'commentators':topCommentators})
+

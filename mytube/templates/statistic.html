@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load filter %}
+{% block body %}
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Number of video</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for channel in channels %}
+            <tr>
+                <th>{{ channel|underscore:'_id' }}</th>
+                <th>{{ channel.number }}</th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Numbers of comments</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for commentator in commentators %}
+            <tr>
+                <th>{{ commentator|underscore:'_id' }}</th>
+                <th>{{ commentator.number }}</th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
