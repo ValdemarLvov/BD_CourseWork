@@ -2,17 +2,17 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>MyTUBE</title>
+    <title>MyTube</title>
     {% load staticfiles %}
          <link rel="shortcut icon" href="/media/favicon.ico" type="image/png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 
 
-<body background="#ecf0f1">
-<nav class="navbar navbar-default" width =100%>
+<body >
+<nav class="navbar navbar-default">
             <div class="navbar-header">
-                <a class="navbar-brand" href="{% url 'index' %}">MyTube</a></a>
+                <a class="navbar-brand" href="{% url 'index' %}">MyTube</a>
             </div>
 
         <div class="container" id="topNavBar">
@@ -24,6 +24,11 @@
             <form  class="navbar-form navbar-righr" >
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_superuser %}
+                       <li>
+                    <a href="{% url 'all_users' %}">
+                        <span  aria-hidden="true" ></span>&nbsp; Users
+                    </a>
+                </li>
                 <li>
                     <a href="{% url 'statistic' %}">
                         <span  aria-hidden="true" ></span>&nbsp; Statistics
@@ -45,7 +50,6 @@
                 </form>
         </div>
 
-    </div>
 </nav>
 {% block body %}
 {% endblock %}

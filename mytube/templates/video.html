@@ -3,9 +3,17 @@
 {% load filter %}
 
 {% block body %}
-    <div class="container-fluid songs-container">
+    <div class="container-fluid songs-container" xmlns="http://www.w3.org/1999/html"
+         xmlns="http://www.w3.org/1999/html">
+        {% if user.is_superuser %}
+        Searched {{ msgs }}
+        <br>
+        Search time: {{ time_res  }} milliseconds
+        <br>
+    {% endif %}
         <div align="center">
-                    <video src="{{ video.url }}" controls width="800" height="450" ></video>
+
+                    <video id="videoPlayer" src="{{ video.url }}" controls width="800" height="450"  ></video>
 
             <h1>{{ video.title }}</h1>
              <p>{{ video.date }}</p>
@@ -14,23 +22,31 @@
                 You liked this video
                 <br>
                 <a href="/dislike/{{ video|underscore:'_id' }}">
-                                <button >Dislike</button>
-                            </a>
+                                 <button type="button" class="btn btn-default btn-lg">
+                    <span class=" glyphicon glyphicon-thumbs-down"></span>
+                </button>
+                </a>
                 {% elif is_dislike %}
                  You disliked this video
                 <br>
                 <a href="/like/{{ video|underscore:'_id' }}">
-                                <button>Like</button>
-                            </a>
+                <button type="button" class="btn btn-default btn-lg">
+                    <span class=" glyphicon glyphicon-thumbs-up"></span>
+                </button>
+                </a>
             {% else %}
                  <br>
                 <a href="/dislike/{{ video|underscore:'_id' }}">
-                                <button >Dislike</button>
-                            </a>
+                    <button type="button" class="btn btn-default btn-lg">
+                    <span class=" glyphicon glyphicon-thumbs-down"></span>
+                </button>
+                </a>
                 <br>
                 <a href="/like/{{ video|underscore:'_id' }}">
-                                <button>Like</button>
-                            </a>
+                                <button type="button" class="btn btn-default btn-lg">
+                    <span class=" glyphicon glyphicon-thumbs-up"></span>
+                </button>
+                </a>
         {% endif %}
 <br> Likes {{ likes }}
         <br> Dislikes {{ dislikes }}
@@ -42,14 +58,39 @@
         <div  style="background-color: lightblue ;padding-right: 20px; padding-left: 20px">
         <b>{{ comment.user_name }}</b>
         <h4>{{ comment.text }}</h4>
-        {% if user.id == comment.user_id %}
+            {% if user.is_superuser %}
+
+        <a href="/remove_comment/{{ comment|underscore:'_id' }}">
+            <button>Delete comment as superuser</button>
+        </a>
+
+        {% elif user.id == comment.user_id %}
         <a href="/remove_comment/{{ comment|underscore:'_id' }}">
             <button>Delete comment</button>
         </a>
+
         {% endif %}
         </div>
         <br>
     {% endfor %}
+
+    <div  align="center">
+    <span class="step-links">
+    <h3>
+        {% if comments.has_previous %}
+            <a href="?page={{ comments.previous_page_number }}"><button >PREVIOUS</button></a>
+        {% endif %}
+
+        <span class="current">
+            Page <b>{{ comments.number }}</b> of <b>{{ comments.paginator.num_pages }}</b>
+        </span>
+
+        {% if comments.has_next %}
+            <a href="?page={{ comments.next_page_number }}"><button>NEXT</button> </a>
+        {% endif %}
+    </h3>
+    </span>
+</div>
 
 <br>
     <form  style="padding-right: 20px; padding-left: 20px" method="get" action="/add_comment/{{ video|underscore:'_id' }}">

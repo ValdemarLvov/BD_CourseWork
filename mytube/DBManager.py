@@ -27,13 +27,17 @@ class DB(object):
 
     def getComments(self, id):
         if self.r.exists(id):
-            print "using cash"
+            msgs = "using cash"
             comments = pickle.loads(self.r.get(id))
         else:
             comments = list(self.db.comments.find({'video_id':id}))
             self.r.set(id, pickle.dumps(comments))
-            print "without cash"
-        return list(comments)
+            msgs = "without cash"
+        return {'comments' : list(comments),'msgs' : msgs}
+
+    def getCountComments(self):
+        comments = [comments for comments in self.db.comments.find()]
+        return len(comments)
 
     def addVideo(self, title, username, user_id, url):
         now = datetime.datetime.now()
@@ -186,12 +190,13 @@ class DB(object):
             {"$group": {"_id": "$name", "number": {"$sum": "$count"}}}
         ])
         )
-        urls={}
+        urls=[]
         for video in videos:
             vid = self.db.videos.find_one({'_id':ObjectId(video["_id"])})
-            urls.update({u'video' : u'vid["url"]', u'number': u'video["number"]'})
-        print  list(urls)
-        return list(urls)
+            urls.append(vid["url"])
+        print urls
+        print videos
+        return {'videos': videos, 'urls':urls}
 
 
 db = DB()

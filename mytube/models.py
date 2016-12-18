@@ -19,7 +19,9 @@ class Comment(models.Model):
     comment = models.TextField(max_length=100)
 
 
-
+class Search(models.Model):
+    type = models.CharField(max_length=6)
+    time = models.FloatField(max_length=None)
 
 
 

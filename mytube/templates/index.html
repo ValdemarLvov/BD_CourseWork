@@ -17,6 +17,11 @@
         <h3> {{ video.title }}</h3>
         <p>{{ video.username }}</p>
           <p>{{ video.date }}</p>
+          {% if user.is_superuser %}
+           <a href="/remove/{{ video|underscore:'_id' }}">
+                                <button>Delete as superuser</button>
+                            </a>
+          {% endif %}
       </div>
     </div>
   </div>

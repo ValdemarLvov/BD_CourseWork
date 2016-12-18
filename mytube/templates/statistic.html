@@ -2,12 +2,22 @@
 {% load staticfiles %}
 {% load filter %}
 {% block body %}
+
+<div align="center">
+    <h2>
+    Now hosting has:<br> <b>{{ number_of_videos }}</b> videos;<br>  <b>{{ number_of_users }}</b> users; <br><b>{{ number_of_comments }}</b> comments
+    </h2>
+<h3>Average time waiting for search WITH cash <font style="color: brown">{{cash_average}}</font> milliseconds</h3>
+<h3>Average time waiting for search WITHOUT cash <font style="color: brown">{{nocash_average}}</font> milliseconds</h3>
+</div>
+
 <div class="container">
-    <table class="table table-hover">
+    <h2>Top 5 channels</h2>
+    <table class="table">
         <thead>
         <tr>
-            <th>Username</th>
-            <th>Number of video</th>
+            <th width="50%">Username</th>
+            <th>Videos </th>
         </tr>
         </thead>
 
@@ -21,13 +31,14 @@
         </tbody>
     </table>
 </div>
-
 <div class="container">
-    <table class="table table-hover">
+
+ <h2>Top 5 commentators</h2>
+    <table class="table">
         <thead>
         <tr>
-            <th>Username</th>
-            <th>Numbers of comments</th>
+            <th width="50%">Username</th>
+            <th>Comments    </th>
         </tr>
         </thead>
         <tbody>
@@ -40,4 +51,5 @@
         </tbody>
     </table>
 </div>
+
 {% endblock %}
