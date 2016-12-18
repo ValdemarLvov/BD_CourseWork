@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block videos_active %}active{% endblock %}
+{% load staticfiles %}
+{% load filter %}
+
+{% block body %}
+    <i>
+    {% if user.is_superuser %}
+        Searched {{ msgs }}
+        <br>
+        Search time: {{ time_res  }} milliseconds
+        <br>
+    {% endif %}
+</i>
+    <h1 style="color: crimson">Searched by name:</h1>
+    <div class="row" style="padding-left: 1% ; padding-right: 1%">
+    {% for video in videos_name %}
+        <div class="col-sm-4" align="center" >
+            <div class="thumbnail" >
+      <a href="{% url 'video' video|underscore:'_id' %}">
+                            <video controls  width="350" height="300">
+                            <source src="{{ video.url }}" >
+                            </video>
+                        </a>
+      <div class="caption">
+        <h3> {{ video.title }}</h3>
+        <p>{{ video.username }}</p>
+      </div>
+    </div>
+  </div>
+    {% endfor %}
+
+    <br><h1 style="color: crimson">Searched by user:</h1>
+
+    {% for video in videos_user %}
+        <div class="col-sm-4" align="center" >
+            <div class="thumbnail" >
+      <a href="{% url 'video' video|underscore:'_id' %}">
+                            <video controls  width="350" height="300">
+                            <source src="{{ video.url }}" >
+                            </video>
+                        </a>
+      <div class="caption">
+        <h3> {{ video.title }}</h3>
+        <p>{{ video.username }}</p>
+      </div>
+    </div>
+  </div>
+        {% endfor %}
+        </div>
+
+
+
+
+
+{% endblock %}

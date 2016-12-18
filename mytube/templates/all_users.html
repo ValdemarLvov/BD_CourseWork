@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load filter %}
+{% block body %}
+
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Data joined</th>
+            <th>Last login</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <th>{{ user.username }}</th>
+                <th>{{ user.date_joined }}</th>
+                <th>{{ user.last_login }}</th>
+                <th>{{ user.is_active }}</th>
+                {% if user.is_active == True %}
+                <th><a href="/disable_user/{{ user.id }}"><button>Disable user</button></a></th>
+            {% else %}
+                 <th><a href="/disable_user/{{ user.id }}"><button>Enable user</button></a></th>
+            {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
